@@ -1,9 +1,10 @@
 import {
   ArrayMinSize,
   IsArray,
-  IsDecimal,
   IsNotEmpty,
+  IsNumber,
   IsPositive,
+  IsUUID,
   MaxLength,
   Min,
   ValidateNested,
@@ -13,10 +14,12 @@ import { ImagemProdutoDTO } from './ImagemProduto.dto';
 import { Type } from 'class-transformer';
 
 export class CriaProdutoDTO {
+  @IsUUID()
+  usuarioId: string;
   @IsNotEmpty()
   nome: string;
   @IsPositive()
-  @IsDecimal({ decimal_digits: '2' })
+  @IsNumber({ maxDecimalPlaces: 2, allowInfinity: false, allowNaN: false })
   valor: number;
   @Min(0)
   quantidade: number;
