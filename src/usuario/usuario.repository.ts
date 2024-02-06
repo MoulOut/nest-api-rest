@@ -38,4 +38,15 @@ export class UsuarioRepository {
 
     return possibleUser;
   }
+
+  async deletar(id: string) {
+    const userToDelete = this.usuarios.find((usuario) => usuario.id === id);
+
+    if (!userToDelete) {
+      throw new Error('Usuário não existe.');
+    }
+
+    this.usuarios = this.usuarios.filter((usuario) => usuario.id !== id);
+    return userToDelete;
+  }
 }
