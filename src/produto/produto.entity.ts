@@ -1,5 +1,12 @@
-import { CaracteristicaProdutoDTO } from './dto/CaracteristicaProduto.dto';
-import { ImagemProdutoDTO } from './dto/ImagemProduto.dto';
+class CaracteristicaProduto {
+  nome: string;
+  descricao: string;
+}
+
+class ImagemProduto {
+  url: string;
+  descricao: string;
+}
 
 export class ProdutoEntity {
   id: string;
@@ -8,7 +15,7 @@ export class ProdutoEntity {
   valor: number;
   quantidade: number;
   descricao: string;
-  caracteristicas: CaracteristicaProdutoDTO[];
-  imagens: ImagemProdutoDTO[];
+  caracteristicas: CaracteristicaProduto[];
+  imagens: ImagemProduto[];
   categoria: string;
 }
