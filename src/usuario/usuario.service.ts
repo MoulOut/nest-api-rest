@@ -10,7 +10,8 @@ export class UsuarioService {
     @InjectRepository(UsuarioEntity)
     private readonly usuarioRepository: Repository<UsuarioEntity>,
   ) {}
-  async listaUsuario() {
+
+  async listarUsuarios() {
     const usuariosSalvos = await this.usuarioRepository.find();
     const listaUsuarios = usuariosSalvos.map(
       (usuario) => new ListaUsuarioDto(usuario.id, usuario.nome),

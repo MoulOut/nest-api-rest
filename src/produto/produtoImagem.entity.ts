@@ -1,8 +1,11 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'produto_imagens' })
 export class ProdutoImagemEntity {
-  @PrimaryColumn({ name: 'url', nullable: false })
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column({ name: 'url', nullable: false })
   url: string;
 
   @Column({ name: 'descricao', nullable: false })
