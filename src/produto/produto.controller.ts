@@ -4,10 +4,15 @@ import { CriaProdutoDTO } from './dto/CriaProduto.dto';
 import { ProdutoEntity } from './produto.entity';
 import { AtualizaProdutoDTO } from './dto/AtualizaProduto.dto';
 import { v4 as uuid } from 'uuid';
+import { ProdutoService } from './produto.service';
 
 @Controller('/produtos')
 export class ProdutoController {
-  constructor(private produtoRepository: ProdutoRepository) {}
+  constructor(
+    private produtoRepository: ProdutoRepository,
+    private produtoService: ProdutoService,
+  ) {}
+
   @Post()
   async cadastraProduto(@Body() dadosDoProduto: CriaProdutoDTO) {
     const produtoEntity = new ProdutoEntity();
@@ -19,32 +24,32 @@ export class ProdutoController {
     produtoEntity.valor = dadosDoProduto.valor;
     produtoEntity.usuarioId = dadosDoProduto.usuarioId;
     produtoEntity.id = uuid();
-    this.produtoRepository.salvar(produtoEntity);
+    this.produtoService.criaProduto(produtoEntity);
     return { produto: produtoEntity, message: 'Produto criado com sucesso.' };
   }
 
   @Get()
   async pegaProdutos() {
-    return this.produtoRepository.pegaProdutos();
+    return this.produtoService.listaProdutos();
   }
 
   @Put('/:id')
   async atualizaProduto(id: string, dadosDoProduto: AtualizaProdutoDTO) {
-    const produtoAtualizado = await this.produtoRepository.atualizar(
+    const [produtoAtualizado] = await this.produtoService.atualizaProduto(
       id,
       dadosDoProduto,
     );
     return {
       produto: produtoAtualizado,
-      message: 'Produto atualzado com sucesso',
+      message: 'Produto atualizado com sucesso.',
     };
   }
   @Delete('/:id')
   async deletaProduto(id: string) {
-    const produtoDeletado = await this.produtoRepository.deleta(id);
+    const [produtoDeletado] = await this.produtoService.deletaProduto(id);
     return {
       produto: produtoDeletado,
-      message: 'Produto deletado com sucesso',
+      message: 'Produto deletado com sucesso.',
     };
   }
 }
