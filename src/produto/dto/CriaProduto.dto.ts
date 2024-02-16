@@ -4,7 +4,6 @@ import {
   IsNotEmpty,
   IsNumber,
   IsPositive,
-  IsUUID,
   MaxLength,
   Min,
   ValidateNested,
@@ -14,9 +13,6 @@ import { ImagemProdutoDTO } from './ImagemProduto.dto';
 import { Type } from 'class-transformer';
 
 export class CriaProdutoDTO {
-  @IsUUID()
-  usuarioId: string;
-
   @IsNotEmpty()
   nome: string;
 

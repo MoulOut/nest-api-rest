@@ -5,7 +5,6 @@ import {
   IsNumber,
   IsOptional,
   IsPositive,
-  IsUUID,
   MaxLength,
   Min,
   ValidateNested,
@@ -15,9 +14,6 @@ import { ImagemProdutoDTO } from './ImagemProduto.dto';
 import { Type } from 'class-transformer';
 
 export class AtualizaProdutoDTO {
-  @IsUUID()
-  @IsOptional()
-  usuarioId: string;
   @IsNotEmpty()
   @IsOptional()
   nome: string;
