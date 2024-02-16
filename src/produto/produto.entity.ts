@@ -10,16 +10,6 @@ import {
 import { ProdutoCaracteristicasEntity } from './produtoCaracteristicas.entity';
 import { ProdutoImagemEntity } from './produtoImagem.entity';
 
-// class CaracteristicaProduto {
-//   nome: string;
-//   descricao: string;
-// }
-
-// class ImagemProduto {
-//   url: string;
-//   descricao: string;
-// }
-
 @Entity({ name: 'produtos' })
 export class ProdutoEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -46,11 +36,13 @@ export class ProdutoEntity {
   @OneToMany(
     () => ProdutoCaracteristicasEntity,
     (produtoCaracteristicasEntity) => produtoCaracteristicasEntity.produto,
+    { cascade: true, eager: true },
   )
   caracteristicas: ProdutoCaracteristicasEntity[];
   @OneToMany(
     () => ProdutoImagemEntity,
     (produtoImagemEntity) => produtoImagemEntity.produto,
+    { cascade: true, eager: true },
   )
   imagens: ProdutoImagemEntity[];
 
