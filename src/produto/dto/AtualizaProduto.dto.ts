@@ -27,7 +27,7 @@ export class AtualizaProdutoDTO {
   valor: number;
   @Min(0)
   @IsOptional()
-  quantidade: number;
+  quantidadeDisponivel: number;
   @IsNotEmpty()
   @MaxLength(1000)
   @IsOptional()
