@@ -10,7 +10,7 @@ const datasourceOptions: DataSourceOptions = {
   // password: this.configService.get<string>('DB_PASS'),
   // database: this.configService.get<string>('DB_NAME'),
   entities: [__dirname + '/../**/*.entity{.js,.ts}'],
-  migrations: [__dirname + '/migrations/*.{js,ts}'],
+  migrations: [__dirname + '/migrations/*{.js,.ts}'],
 };
 
 const dataSource = new DataSource(datasourceOptions);

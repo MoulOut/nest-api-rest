@@ -18,7 +18,7 @@ export class ProdutoEntity {
   @Column({ name: 'usuario_id', nullable: false, length: 100 })
   usuarioId: string;
 
-  @Column({ name: 'nome', nullable: false, length: 100 })
+  @Column({ name: 'nome', nullable: false, length: 150 })
   nome: string;
 
   @Column({ name: 'valor', nullable: false })
