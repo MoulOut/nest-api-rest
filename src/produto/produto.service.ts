@@ -32,17 +32,18 @@ export class ProdutoService {
     return produtosSalvos;
   }
 
-  async atualizaProduto(id: string, novosDados: AtualizaProdutoDTO) {
-    const produtoAtualizado = await this.produtoRepository.find({
-      where: { id: id },
+  async atualizaProduto(id: string, dadosDoProduto: AtualizaProdutoDTO) {
+    const produtoAtualizar = await this.produtoRepository.findOneBy({
+      id,
     });
-    await this.produtoRepository.update(id, novosDados);
-    return produtoAtualizado;
+    Object.assign(produtoAtualizar, dadosDoProduto);
+    await this.produtoRepository.save(produtoAtualizar);
+    return produtoAtualizar;
   }
 
   async deletaProduto(id: string) {
-    const produtoDeletado = await this.produtoRepository.find({
-      where: { id: id },
+    const produtoDeletado = await this.produtoRepository.findOneBy({
+      id,
     });
     await this.produtoRepository.delete(id);
     return produtoDeletado;

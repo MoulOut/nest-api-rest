@@ -30,7 +30,7 @@ export class AtualizaProdutoDTO {
   descricao: string;
   @ValidateNested()
   @IsArray()
-  @ArrayMinSize(3)
+  @ArrayMinSize(1)
   @Type(() => CaracteristicaProdutoDTO)
   @IsOptional()
   caracteristicas: CaracteristicaProdutoDTO[];
