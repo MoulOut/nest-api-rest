@@ -31,14 +31,14 @@ export class CriaProdutoDTO {
   descricao: string;
 
   @ValidateNested()
-  @IsArray()
-  @ArrayMinSize(3)
+  @IsArray({ message: 'Precisa ser um array.' })
+  @ArrayMinSize(1, { message: 'Precisa conter ao menos 1 elemento.' })
   @Type(() => CaracteristicaProdutoDTO)
   caracteristicas: CaracteristicaProdutoDTO[];
 
   @ValidateNested()
-  @IsArray()
-  @ArrayMinSize(1)
+  @IsArray({ message: 'Precisa ser um array.' })
+  @ArrayMinSize(1, { message: 'Precisa conter ao menos 1 elemento.' })
   @Type(() => ImagemProdutoDTO)
   imagens: ImagemProdutoDTO[];
 
