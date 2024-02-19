@@ -1,6 +1,15 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { PedidoService } from './pedido.service';
 import { CriaPedidoDto } from './dto/criaPedido.dto';
+import { AtualizaPedidoDto } from './dto/atualizaPedido.dto';
 
 @Controller('pedidos')
 export class PedidoController {
@@ -25,5 +34,13 @@ export class PedidoController {
       await this.pedidoService.encontraPedidos(usuarioId);
 
     return pedidosEncontrados;
+  }
+
+  @Patch(':id')
+  async atualizaPedido(
+    @Param('id') pedidoId: string,
+    @Body() novoStatus: AtualizaPedidoDto,
+  ) {
+    return await this.pedidoService.atualizaPedido(pedidoId, novoStatus);
   }
 }
