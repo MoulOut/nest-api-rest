@@ -22,9 +22,9 @@ export class PedidoService {
 
   async cadastraPedido(usuarioId: string, dadosDoPedido: CriaPedidoDto) {
     const usuario = await this.usuarioRepository.findOneBy({ id: usuarioId });
-    const idsDosProdutos = dadosDoPedido.itensPedido.map((itemPedido) => {
-      itemPedido.produtoId;
-    });
+    const idsDosProdutos = dadosDoPedido.itensPedido.map(
+      (itemPedido) => itemPedido.produtoId,
+    );
 
     const produtosRelacionados = await this.produtoRepository.findBy({
       id: In(idsDosProdutos),
@@ -36,7 +36,7 @@ export class PedidoService {
 
     const itemPedidoEntidades = dadosDoPedido.itensPedido.map((itemPedido) => {
       const produtoRelacionado = produtosRelacionados.find((produto) => {
-        produto.id === itemPedido.produtoId;
+        return produto.id === itemPedido.produtoId;
       });
       const itemPedidoEntity = new ItemPedidoEntity();
 
