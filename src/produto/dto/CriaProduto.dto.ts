@@ -4,13 +4,42 @@ import {
   IsNotEmpty,
   IsNumber,
   IsPositive,
+  IsString,
+  IsUrl,
   MaxLength,
   Min,
   ValidateNested,
 } from 'class-validator';
-import { CaracteristicaProdutoDTO } from './CaracteristicaProduto.dto';
-import { ImagemProdutoDTO } from './ImagemProduto.dto';
 import { Type } from 'class-transformer';
+import { ProdutoEntity } from '../produto.entity';
+
+class CaracteristicaProdutoDTO {
+  id: string;
+
+  @IsString()
+  @IsNotEmpty({ message: 'Nome da caracteristica não pode ser vazia.' })
+  nome: string;
+
+  @IsString()
+  @IsNotEmpty({ message: 'Descricao não pode ser vazia.' })
+  descricao: string;
+
+  produto: ProdutoEntity;
+}
+
+class ImagemProdutoDTO {
+  id: string;
+
+  @IsUrl()
+  @IsNotEmpty({ message: 'Url da imagem não pode ser vazia.' })
+  url: string;
+
+  @IsString()
+  @IsNotEmpty({ message: 'Descrição não pode ser vazia.' })
+  descricao: string;
+
+  produto: ProdutoEntity;
+}
 
 export class CriaProdutoDTO {
   @IsNotEmpty({ message: 'Nome não pode ser vazio.' })
