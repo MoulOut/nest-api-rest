@@ -9,8 +9,8 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator';
-import { CaracteristicaProdutoDTO } from './CaracteristicaProduto.dto';
-import { ImagemProdutoDTO } from './ImagemProduto.dto';
+import { CaracteristicaProdutoDTO } from './CriaProduto.dto';
+import { ImagemProdutoDTO } from './CriaProduto.dto';
 import { Type } from 'class-transformer';
 
 export class AtualizaProdutoDTO {

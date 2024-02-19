@@ -13,7 +13,7 @@ import {
 import { Type } from 'class-transformer';
 import { ProdutoEntity } from '../produto.entity';
 
-class CaracteristicaProdutoDTO {
+export class CaracteristicaProdutoDTO {
   id: string;
 
   @IsString()
@@ -27,7 +27,7 @@ class CaracteristicaProdutoDTO {
   produto: ProdutoEntity;
 }
 
-class ImagemProdutoDTO {
+export class ImagemProdutoDTO {
   id: string;
 
   @IsUrl()
