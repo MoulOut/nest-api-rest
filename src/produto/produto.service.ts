@@ -14,13 +14,8 @@ export class ProdutoService {
 
   async criaProduto(produto: CriaProdutoDTO) {
     const produtoEntity = new ProdutoEntity();
-    produtoEntity.nome = produto.nome;
-    produtoEntity.valor = produto.valor;
-    produtoEntity.quantidadeDisponivel = produto.quantidadeDisponivel;
-    produtoEntity.descricao = produto.descricao;
-    produtoEntity.categoria = produto.categoria;
-    produtoEntity.caracteristicas = produto.caracteristicas;
-    produtoEntity.imagens = produto.imagens;
+
+    Object.assign(produtoEntity, produto as ProdutoEntity);
 
     await this.produtoRepository.save(produtoEntity);
     return produtoEntity;
@@ -33,17 +28,17 @@ export class ProdutoService {
   }
 
   async atualizaProduto(id: string, dadosDoProduto: AtualizaProdutoDTO) {
-    const produtoAtualizar = await this.produtoRepository.findOneBy({
+    const produtoAtualizado = await this.produtoRepository.findOneBy({
       id,
     });
 
-    if (produtoAtualizar === null) {
+    if (produtoAtualizado === null) {
       throw new NotFoundException('O produto não foi encontrado');
     }
 
-    Object.assign(produtoAtualizar, dadosDoProduto);
-    await this.produtoRepository.save(produtoAtualizar);
-    return produtoAtualizar;
+    Object.assign(produtoAtualizado, dadosDoProduto as ProdutoEntity);
+    await this.produtoRepository.save(produtoAtualizado);
+    return produtoAtualizado;
   }
 
   async deletaProduto(id: string) {

@@ -99,6 +99,8 @@ export class PedidoService {
   }
 
   async encontraPedidos(usuarioId: string) {
+    await this.buscaUsuario(usuarioId);
+
     const pedidos = await this.pedidoRepository.find({
       where: {
         usuario: {
@@ -120,7 +122,7 @@ export class PedidoService {
       throw new NotFoundException('O pedido não foi encontrado');
     }
 
-    Object.assign(pedido, novoStatus);
+    Object.assign(pedido, novoStatus as PedidoEntity);
 
     return this.pedidoRepository.save(pedido);
   }

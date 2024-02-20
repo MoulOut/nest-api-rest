@@ -3,5 +3,5 @@ import { StatusPedido } from '../enum/statuspedido.enum';
 
 export class AtualizaPedidoDto {
   @IsEnum(StatusPedido)
-  statusPedido: StatusPedido;
+  status: StatusPedido;
 }
