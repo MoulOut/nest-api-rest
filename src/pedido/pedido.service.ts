@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PedidoEntity } from './pedido.entity';
 import { In, Repository } from 'typeorm';
@@ -20,8 +20,18 @@ export class PedidoService {
     private readonly produtoRepository: Repository<ProdutoEntity>,
   ) {}
 
+  private async buscaUsuario(id: string) {
+    const usuario = await this.usuarioRepository.findOneBy({ id });
+
+    if (usuario === null) {
+      throw new NotFoundException('O usuario não foi encontrado.');
+    }
+
+    return usuario;
+  }
+
   async cadastraPedido(usuarioId: string, dadosDoPedido: CriaPedidoDto) {
-    const usuario = await this.usuarioRepository.findOneBy({ id: usuarioId });
+    const usuario = await this.buscaUsuario(usuarioId);
     const idsDosProdutos = dadosDoPedido.itensPedido.map(
       (itemPedido) => itemPedido.produtoId,
     );
@@ -40,8 +50,14 @@ export class PedidoService {
       });
       const itemPedidoEntity = new ItemPedidoEntity();
 
+      if (produtoRelacionado === undefined) {
+        throw new NotFoundException(
+          `O produto com id:${itemPedido.produtoId} não foi encontrado.`,
+        );
+      }
+
       itemPedidoEntity.produto = produtoRelacionado;
-      itemPedidoEntity.precoVenda = 20;
+      itemPedidoEntity.precoVenda = produtoRelacionado.valor;
       itemPedidoEntity.quantidade = itemPedido.quantidade;
       itemPedidoEntity.produto.quantidadeDisponivel -= itemPedido.quantidade;
       return itemPedidoEntity;
@@ -76,6 +92,10 @@ export class PedidoService {
 
   async atualizaPedido(pedidoId: string, novoStatus: AtualizaPedidoDto) {
     const pedido = await this.pedidoRepository.findOneBy({ id: pedidoId });
+
+    if (pedido === null) {
+      throw new NotFoundException('O pedido não foi encontrado');
+    }
 
     Object.assign(pedido, novoStatus);
 

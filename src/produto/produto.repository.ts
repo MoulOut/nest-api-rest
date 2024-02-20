@@ -12,10 +12,11 @@ export class ProdutoRepository {
   async pegaProdutos() {
     return this.produtos;
   }
+
   async atualizar(id: string, novosDados: Partial<ProdutoEntity>) {
     const produto = await this.produtos.find((produto) => produto.id === id);
 
-    if (produto) {
+    if (produto === undefined) {
       throw new Error('Produto não existe.');
     }
 
@@ -30,7 +31,7 @@ export class ProdutoRepository {
   async deleta(id: string) {
     const produto = await this.produtos.find((produto) => produto.id === id);
 
-    if (produto) {
+    if (produto === undefined) {
       throw new Error('Produto não existe.');
     }
 
