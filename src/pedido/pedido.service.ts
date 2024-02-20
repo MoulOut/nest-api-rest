@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PedidoEntity } from './pedido.entity';
 import { In, Repository } from 'typeorm';
@@ -30,6 +34,29 @@ export class PedidoService {
     return usuario;
   }
 
+  private trataDadosPedido(
+    dadosDoPedido: CriaPedidoDto,
+    produtosRelacionados: ProdutoEntity[],
+  ) {
+    dadosDoPedido.itensPedido.forEach((itemPedido) => {
+      const produtoRelacionado = produtosRelacionados.find((produto) => {
+        return produto.id === itemPedido.produtoId;
+      });
+
+      if (produtoRelacionado === undefined) {
+        throw new NotFoundException(
+          `O produto com id:${itemPedido.produtoId} não foi encontrado.`,
+        );
+      }
+
+      if (itemPedido.quantidade > produtoRelacionado.quantidadeDisponivel) {
+        throw new BadRequestException(
+          `A quantidade solicitada (${itemPedido.quantidade}) é maior do que a disponivel (${produtoRelacionado.quantidadeDisponivel}) para o produto ${produtoRelacionado.nome}.`,
+        );
+      }
+    });
+  }
+
   async cadastraPedido(usuarioId: string, dadosDoPedido: CriaPedidoDto) {
     const usuario = await this.buscaUsuario(usuarioId);
     const idsDosProdutos = dadosDoPedido.itensPedido.map(
@@ -44,20 +71,16 @@ export class PedidoService {
     pedidoEntity.status = StatusPedido.EM_PROCESSAMENTO;
     pedidoEntity.usuario = usuario;
 
+    this.trataDadosPedido(dadosDoPedido, produtosRelacionados);
+
     const itemPedidoEntidades = dadosDoPedido.itensPedido.map((itemPedido) => {
       const produtoRelacionado = produtosRelacionados.find((produto) => {
         return produto.id === itemPedido.produtoId;
       });
       const itemPedidoEntity = new ItemPedidoEntity();
 
-      if (produtoRelacionado === undefined) {
-        throw new NotFoundException(
-          `O produto com id:${itemPedido.produtoId} não foi encontrado.`,
-        );
-      }
-
-      itemPedidoEntity.produto = produtoRelacionado;
-      itemPedidoEntity.precoVenda = produtoRelacionado.valor;
+      itemPedidoEntity.produto = produtoRelacionado!;
+      itemPedidoEntity.precoVenda = produtoRelacionado!.valor;
       itemPedidoEntity.quantidade = itemPedido.quantidade;
       itemPedidoEntity.produto.quantidadeDisponivel -= itemPedido.quantidade;
       return itemPedidoEntity;
