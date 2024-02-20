@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsuarioController } from './usuario.controller';
-import { UsuarioRepository } from './usuario.repository';
 import { EmailValidator } from './validacao/emailUnico.validator';
 import { UsuarioService } from './usuario.service';
 import { UsuarioEntity } from './usuario.entity';
@@ -9,6 +8,6 @@ import { UsuarioEntity } from './usuario.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([UsuarioEntity])],
   controllers: [UsuarioController],
-  providers: [UsuarioRepository, EmailValidator, UsuarioService],
+  providers: [EmailValidator, UsuarioService],
 })
 export class UsuarioModule {}

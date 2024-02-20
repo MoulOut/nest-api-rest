@@ -7,17 +7,13 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ProdutoRepository } from './produto.repository';
 import { CriaProdutoDTO } from './dto/CriaProduto.dto';
 import { AtualizaProdutoDTO } from './dto/AtualizaProduto.dto';
 import { ProdutoService } from './produto.service';
 
 @Controller('/produtos')
 export class ProdutoController {
-  constructor(
-    private produtoRepository: ProdutoRepository,
-    private produtoService: ProdutoService,
-  ) {}
+  constructor(private produtoService: ProdutoService) {}
 
   @Post()
   async cadastraProduto(@Body() dadosDoProduto: CriaProdutoDTO) {
