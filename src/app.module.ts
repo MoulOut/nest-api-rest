@@ -8,6 +8,7 @@ import { PedidoModule } from './modules/pedido/pedido.module';
 import { APP_FILTER } from '@nestjs/core';
 import { FiltroExcecaoGlobal } from './resources/filtros/filtro-excecao-global';
 import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-yet';
 
 @Module({
   imports: [
@@ -21,9 +22,14 @@ import { CacheModule } from '@nestjs/cache-manager';
       inject: [PostgresConfigService],
     }),
     PedidoModule,
-    CacheModule.register({
+    CacheModule.registerAsync({
+      useFactory: async () => ({
+        store: await redisStore({
+          ttl: 3600 * 1000,
+          url: process.env.CACHE_URL,
+        }),
+      }),
       isGlobal: true,
-      ttl: 10000,
     }),
   ],
   providers: [
