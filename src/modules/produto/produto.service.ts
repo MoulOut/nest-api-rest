@@ -27,6 +27,14 @@ export class ProdutoService {
     return produtosSalvos;
   }
 
+  async listaUmProduto(id: string) {
+    const produto = await this.produtoRepository.findOneBy({ id });
+
+    if (produto === null) throw new NotFoundException('O produto não existe.');
+
+    return produto;
+  }
+
   async atualizaProduto(id: string, dadosDoProduto: AtualizaProdutoDTO) {
     const produtoAtualizado = await this.produtoRepository.findOneBy({
       id,
