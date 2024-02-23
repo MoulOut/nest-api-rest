@@ -1,3 +1,4 @@
+import { Exclude, Expose } from 'class-transformer';
 import { PedidoEntity } from '../pedido/pedido.entity';
 import {
   Entity,
@@ -9,11 +10,13 @@ import {
   OneToMany,
 } from 'typeorm';
 
+@Exclude()
 @Entity({ name: 'usuarios' })
 export class UsuarioEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Expose()
   @Column({ name: 'nome', length: 150, nullable: false })
   nome: string;
 
